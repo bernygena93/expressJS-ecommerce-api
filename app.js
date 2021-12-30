@@ -20,6 +20,14 @@ app.use(cors());
 
 app.get("/", cors("Access-Control-Allow-Origin"), function (req, res, next) {});
 
+app.get("/", function (req, res) {
+  res.send("Hello");
+});
+
+http.listen(process.env.PORT || 8888, function () {
+  console.log("listening on *:8888");
+});
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
