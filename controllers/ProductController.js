@@ -29,6 +29,7 @@ module.exports = {
         user: req.body.user,
         price: req.body.price,
         description: req.body.description,
+        shipping: req.body.shipping,
         stock: req.body.stock,
         category: req.body.category,
       });
