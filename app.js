@@ -6,6 +6,7 @@ var path = require("path");
 var cors = require("cors");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var http = require("http").Server(app);
 const jwt = require("jsonwebtoken");
 
 var indexRouter = require("./routes/index");
