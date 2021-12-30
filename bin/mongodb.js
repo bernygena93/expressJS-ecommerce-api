@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 
 mongoose.connect(
-  "mongodb://localhost/React-Ecommerce-DB",
+  "mongodb+srv://bernygena:<Bernygena93>@db-heroku.xjwq6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   { useNewUrlParser: true },
   function (error) {
     if (error) {
