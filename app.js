@@ -18,7 +18,7 @@ app.set("secretKey", "react-ecommerce-api");
 
 app.use(cors());
 
-app.get("/", cors(), function (req, res, next) {
+app.get("/", cors("Access-Control-Allow-Origin"), function (req, res, next) {
   res.json({ msg: "This is CORS-enabled for only localhost." });
 });
 
