@@ -8,7 +8,7 @@ var usersRouter = require("./routes/users");
 var productsRouter = require("./routes/product");
 var categoryRouter = require("./routes/category");
 
-app.use("/", indexRouter);
+app.use("/", productsRouter);
 app.use("/products", productsRouter);
 app.use("/auth", usersRouter);
 app.use("/category", categoryRouter);
