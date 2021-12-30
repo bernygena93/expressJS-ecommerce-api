@@ -20,6 +20,12 @@ app.use(cors());
 
 app.get("/", cors("Access-Control-Allow-Origin"), function (req, res, next) {});
 
+var port = process.env.PORT || 8080;
+
+app.listen(port, function () {
+  console.log("Our app is running on http://localhost:" + port);
+});
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
