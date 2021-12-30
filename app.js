@@ -6,7 +6,6 @@ var path = require("path");
 var cors = require("cors");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var http = require("http").Server(app);
 const jwt = require("jsonwebtoken");
 
 var indexRouter = require("./routes/index");
@@ -21,12 +20,9 @@ app.use(cors());
 
 app.get("/", cors("Access-Control-Allow-Origin"), function (req, res, next) {});
 
-app.get("/", function (req, res) {
-  res.send("Hello");
-});
-
-http.listen(process.env.PORT || 8888, function () {
-  console.log("listening on *:8888");
+const server = app.listen(process.env.PORT || 5000, () => {
+  const port = server.address().port;
+  console.log(`Express is working on port ${port}`);
 });
 
 app.set("views", path.join(__dirname, "views"));
