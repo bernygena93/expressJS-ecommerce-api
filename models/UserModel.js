@@ -45,7 +45,7 @@ const UsersSchema = mongoose.Schema({
       ref: "categories",
     },
   ],
-  favourites: [
+  favorites: [
     {
       type: mongoose.Schema.ObjectId,
       ref: "categories",

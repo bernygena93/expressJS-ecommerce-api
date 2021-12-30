@@ -3,6 +3,7 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
+var cors = require("cors");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const jwt = require("jsonwebtoken");
@@ -15,6 +16,17 @@ var categoryRouter = require("./routes/category");
 var app = express();
 app.set("secretKey", "react-ecommerce-api");
 
+app.use(cors());
+
+var corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200,
+};
+
+app.get("/", cors(corsOptions), function (req, res, next) {
+  res.json({ msg: "This is CORS-enabled for only localhost." });
+});
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -26,7 +38,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/products", productsRouter);
-app.use("/users", usersRouter);
+app.use("/auth", usersRouter);
 app.use("/category", categoryRouter);
 
 app.use(function (req, res, next) {

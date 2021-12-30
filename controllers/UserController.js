@@ -33,10 +33,19 @@ module.exports = {
           expiresIn: 7600,
         });
         res.status(200).json({
-          error: false,
+          status: "Success",
           message: "Login Ok",
           token: token,
-          user: user,
+          user: {
+            _id: user._id,
+            name: user.name,
+            lastname: user.lastname,
+            email: user.email,
+            username: user.username,
+            shoppingCart: user.shoppingCart,
+            shoppingHistory: user.shoppingHistory,
+            favorites: user.favorites,
+          },
         });
         return;
       } else {
@@ -55,7 +64,7 @@ module.exports = {
     try {
       const user = await UserModel.updateOne(
         { _id: req.params.id },
-        user.shoppingCart.push(req.body.shoppingCart)
+        (user.shoppingCart = req.body.shoppingCart)
       );
       res.status(200).json(req.body.shoppingCart);
     } catch (e) {
@@ -66,7 +75,7 @@ module.exports = {
     try {
       const user = await UserModel.updateOne(
         { _id: req.params.id },
-        user.shoppingHistory.push(req.body.shoppingHistory)
+        (user.shoppingHistory = req.body.shoppingHistory)
       );
       res.status(200).json(req.body.shoppingHistory);
     } catch (e) {
@@ -77,9 +86,9 @@ module.exports = {
     try {
       const user = await UserModel.updateOne(
         { _id: req.params.id },
-        user.favourites.push(req.body.favourites)
+        (user.favourites = req.body.favorites)
       );
-      res.status(200).json(req.body.favourites);
+      res.status(200).json(req.body.favorites);
     } catch (e) {
       res.status(500).json(e);
     }
