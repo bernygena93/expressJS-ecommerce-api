@@ -20,11 +20,6 @@ app.use(cors());
 
 app.get("/", cors("Access-Control-Allow-Origin"), function (req, res, next) {});
 
-const server = app.listen(process.env.PORT || 5000, () => {
-  const port = server.address().port;
-  console.log(`Express is working on port ${port}`);
-});
-
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
