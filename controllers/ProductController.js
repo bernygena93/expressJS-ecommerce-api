@@ -32,6 +32,8 @@ module.exports = {
         shipping: req.body.shipping,
         stock: req.body.stock,
         category: req.body.category,
+        warranty: req.body.warranty,
+        rating: req.body.rating,
       });
       req.body.images.map((image) => {
         product.images.push(image);
@@ -57,7 +59,19 @@ module.exports = {
       console.log(e, "error al actualizar el producto");
     }
   },
-
+  updateRaiting: async function (req, res, next) {
+    try {
+      const product = await ProductModel.updateOne({ _id: req.params.id });
+      const totalScore = 0;
+      product.ratings.map((rating) => (totalScore += rating.score));
+      product.rating =
+        product.ratings.length > 0 ? totalScore / product.ratings.length : 0;
+      res.status(200).json(product);
+    } catch (e) {
+      res.status(500).json(e);
+      console.log(e, "error al actualizar el producto");
+    }
+  },
   //-------------- Eliminar un producto por su id --------
   deleteById: async function (req, res, next) {
     try {

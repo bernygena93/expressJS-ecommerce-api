@@ -1,12 +1,12 @@
 /** @format */
 
-const Category = require("../models/CategoryModel");
+const CategoryModel = require("../models/CategoryModel");
 module.exports = {
   create: async function (req, res, next) {
     try {
       console.log(req.body);
       console.log(req.body.name);
-      const document = new Category({
+      const document = new CategoryModel({
         name: req.body.name,
       });
 
@@ -22,7 +22,7 @@ module.exports = {
 
   getAll: async function (req, res, next) {
     try {
-      const categories = await categoryModel.find();
+      const categories = await CategoryModel.find();
       res.status(200).json(categories);
     } catch (e) {
       res.status(500).json(e);

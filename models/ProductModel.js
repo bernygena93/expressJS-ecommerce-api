@@ -2,6 +2,10 @@
 
 const mongoose = require("../bin/mongodb");
 const imageSchema = new mongoose.Schema({ url: String });
+const raitingSchema = new mongoose.Schema({
+  idUser: { type: mongoose.Schema.ObjectId, ref: "users" },
+  score: Number,
+});
 
 const ProductsSchema = mongoose.Schema({
   user: {
@@ -18,6 +22,9 @@ const ProductsSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "categories",
   },
+  warranty: Number,
+  rating: Number,
+  ratings: [raitingSchema],
   images: [imageSchema],
 });
 

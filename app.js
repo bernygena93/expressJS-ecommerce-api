@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/products", productsRouter);
 app.use("/auth", usersRouter);
-app.use("/category", categoryRouter);
+app.use("/categories", categoryRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
