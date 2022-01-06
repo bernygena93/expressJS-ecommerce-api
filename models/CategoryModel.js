@@ -15,4 +15,4 @@ categorySchema.statics.findBydIdAndValidate = async function (id) {
   }
   return document;
 };
-module.exports = mongoose.model("Categories", categorySchema);
+module.exports = mongoose.model("categories", categorySchema);

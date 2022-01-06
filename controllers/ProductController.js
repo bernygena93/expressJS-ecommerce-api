@@ -28,16 +28,17 @@ module.exports = {
         model: req.body.model,
         user: req.body.user,
         price: req.body.price,
-        description: req.body.description,
         shipping: req.body.shipping,
         stock: req.body.stock,
         category: req.body.category,
         warranty: req.body.warranty,
         rating: req.body.rating,
       });
-      req.body.images.map((image) => {
-        product.images.push(image);
-      });
+
+      (product.description = req.body.description.replace("\n", "<br />")),
+        req.body.images.map((image) => {
+          product.images.push(image);
+        });
       const document = await product.save();
       res.status(200).json(document);
     } catch (e) {
