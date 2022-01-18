@@ -6,14 +6,13 @@ const mongoose = require("mongoose");
 const urlDB = "mongodb://localhost/React-Ecommerce-DB";
 
 // Cloud DB
-const urlDB =
-  // "**************************";
+// const urlDB = "**************************";
 
-  mongoose.connect(urlDB, { useNewUrlParser: true }, function (error) {
-    if (error) {
-      throw error;
-    } else {
-      console.log("Conectado a MongoDB");
-    }
-  });
+mongoose.connect(urlDB, { useNewUrlParser: true }, function (error) {
+  if (error) {
+    throw error;
+  } else {
+    console.log("Conectado a MongoDB");
+  }
+});
 module.exports = mongoose;

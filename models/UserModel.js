@@ -3,6 +3,10 @@
 const mongoose = require("../bin/mongodb");
 const validators = require("../utils/validators");
 const bcrypt = require("bcrypt");
+const productSchema = new mongoose.Schema({
+  product: { type: mongoose.Schema.ObjectId, ref: "products" },
+  amount: Number,
+});
 
 const UsersSchema = mongoose.Schema({
   name: {
@@ -33,24 +37,9 @@ const UsersSchema = mongoose.Schema({
       message: "password incorrecto",
     },
   },
-  shoppingCart: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "categories",
-    },
-  ],
-  shoppingHistory: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "categories",
-    },
-  ],
-  favorites: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "categories",
-    },
-  ],
+  shoppingCart: [productSchema],
+  shoppingHistory: [productSchema],
+  favorites: [productSchema],
 });
 
 UsersSchema.pre("save", function (next) {

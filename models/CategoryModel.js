@@ -2,10 +2,10 @@
 
 const mongoose = require("../bin/mongodb");
 
-const categorySchema = new mongoose.Schema({
+const CategorySchema = new mongoose.Schema({
   name: String,
 });
-categorySchema.statics.findBydIdAndValidate = async function (id) {
+CategorySchema.statics.findBydIdAndValidate = async function (id) {
   const document = await this.findById(id);
   if (!document) {
     return {
@@ -15,4 +15,4 @@ categorySchema.statics.findBydIdAndValidate = async function (id) {
   }
   return document;
 };
-module.exports = mongoose.model("categories", categorySchema);
+module.exports = mongoose.model("categories", CategorySchema);

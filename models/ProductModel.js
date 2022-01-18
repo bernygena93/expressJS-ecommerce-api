@@ -12,7 +12,10 @@ const ProductsSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "users",
   },
-  make: String,
+  brand: {
+    type: mongoose.Schema.ObjectId,
+    ref: "brands",
+  },
   model: String,
   price: Number,
   shipping: Boolean,

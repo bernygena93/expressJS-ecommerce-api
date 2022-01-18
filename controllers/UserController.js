@@ -64,7 +64,9 @@ module.exports = {
     try {
       const user = await UserModel.updateOne(
         { _id: req.params.id },
-        (user.shoppingCart = req.body.shoppingCart)
+        req.body.shoppingCart.map((product) => {
+          shoppingCart.push(product);
+        })
       );
       res.status(200).json(req.body.shoppingCart);
     } catch (e) {
@@ -75,7 +77,9 @@ module.exports = {
     try {
       const user = await UserModel.updateOne(
         { _id: req.params.id },
-        (user.shoppingHistory = req.body.shoppingHistory)
+        req.body.shoppingHistory.map((product) => {
+          shoppingHistory.push(product);
+        })
       );
       res.status(200).json(req.body.shoppingHistory);
     } catch (e) {
@@ -86,7 +90,9 @@ module.exports = {
     try {
       const user = await UserModel.updateOne(
         { _id: req.params.id },
-        (user.favourites = req.body.favorites)
+        req.body.favorites.map((product) => {
+          favorites.push(product);
+        })
       );
       res.status(200).json(req.body.favorites);
     } catch (e) {

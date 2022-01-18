@@ -8,10 +8,11 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const jwt = require("jsonwebtoken");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var productsRouter = require("./routes/product");
-var categoryRouter = require("./routes/category");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
+const productsRouter = require("./routes/product");
+const categoryRouter = require("./routes/category");
+const brandRouter = require("./routes/brand");
 
 var app = express();
 app.set("secretKey", "react-ecommerce-api");
@@ -33,6 +34,7 @@ app.use("/", indexRouter);
 app.use("/products", productsRouter);
 app.use("/auth", usersRouter);
 app.use("/categories", categoryRouter);
+app.use("/brands/", brandRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

@@ -3,6 +3,8 @@
 const ProductModel = require("../models/ProductModel");
 
 module.exports = {
+  // -- Get ------------------------------------------------
+
   getAll: async function (req, res, next) {
     try {
       const products = await ProductModel.find();
@@ -14,13 +16,54 @@ module.exports = {
   },
   getById: async function (req, res, next) {
     try {
-      const product = await ProductModel.findById(req.params.id);
+      const product = await ProductModel.findById(req.params.id).populate(
+        "category"
+      );
       res.status(200).json(product);
     } catch (e) {
       res.status(500).json(e);
       console.log(e, "error al consultar el producto");
     }
   },
+  getByCategory: async function (req, res, next) {
+    try {
+      const products = await ProductModel.find({ category: req.params.id });
+      res.status(200).json(products);
+    } catch (e) {
+      res.status(500).json(e);
+      console.log(e, "error al consultar el producto");
+    }
+  },
+  getByBrand: async function (req, res, next) {
+    try {
+      const products = await ProductModel.find({ brand: req.params.id });
+      res.status(200).json(products);
+    } catch (e) {
+      res.status(500).json(e);
+      console.log(e, "error al consultar la lista de productos");
+    }
+  },
+  getByUser: async function (req, res, next) {
+    try {
+      const products = await ProductModel.find({ user: req.params.id });
+      res.status(200).json(products);
+    } catch (e) {
+      res.status(500).json(e);
+      console.log(e, "error al consultar la lista de productos");
+    }
+  },
+  getByShippingFree: async function (req, res, next) {
+    try {
+      const products = await ProductModel.find({ shipping: true });
+      res.status(200).json(products);
+    } catch (e) {
+      res.status(500).json(e);
+      console.log(e, "error al consultar la lista de productos");
+    }
+  },
+  // --------------------------------------------------
+  // -- Create ------------------------------------------------
+
   create: async function (req, res, next) {
     try {
       const product = new ProductModel({
@@ -33,12 +76,12 @@ module.exports = {
         category: req.body.category,
         warranty: req.body.warranty,
         rating: req.body.rating,
+        description: req.body.description,
       });
 
-      (product.description = req.body.description.replace("\n", "<br />")),
-        req.body.images.map((image) => {
-          product.images.push(image);
-        });
+      req.body.images.map((image) => {
+        product.images.push(image);
+      });
       const document = await product.save();
       res.status(200).json(document);
     } catch (e) {
@@ -46,8 +89,9 @@ module.exports = {
       console.log(e, "error al crear el nuevo producto");
     }
   },
+  // --------------------------------------------------
+  // -- Update ------------------------------------------------
 
-  //-------------- Actualizar Producto -------------------
   update: async function (req, res, next) {
     try {
       const product = await ProductModel.updateOne(
@@ -60,6 +104,7 @@ module.exports = {
       console.log(e, "error al actualizar el producto");
     }
   },
+
   updateRaiting: async function (req, res, next) {
     try {
       const product = await ProductModel.updateOne({ _id: req.params.id });
@@ -73,7 +118,9 @@ module.exports = {
       console.log(e, "error al actualizar el producto");
     }
   },
-  //-------------- Eliminar un producto por su id --------
+  // --------------------------------------------------
+  // -- Delete ------------------------------------------------
+
   deleteById: async function (req, res, next) {
     try {
       const product = await ProductModel.deleteOne({ _id: req.params.id });
@@ -81,16 +128,6 @@ module.exports = {
     } catch (e) {
       res.status(500).json(e);
       console.log(e, "error al eliminar el producto");
-    }
-  },
-
-  getFeaturedProducts: async function (req, res, next) {
-    try {
-      const documents = await ProductModel.find({ featured: true });
-      res.status(200).json(documents);
-    } catch (e) {
-      res.status(500).json(e);
-      console.log(e, "error al consultar la lista de productos");
     }
   },
 };
