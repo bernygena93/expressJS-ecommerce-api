@@ -34,7 +34,7 @@ app.use("/", indexRouter);
 app.use("/products", productsRouter);
 app.use("/auth", usersRouter);
 app.use("/categories", categoryRouter);
-app.use("/brands/", brandRouter);
+app.use("/brands", brandRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
@@ -46,7 +46,7 @@ function validateUser(req, res, next) {
     req.app.get("secretKey"),
     function (err, decoded) {
       if (err) {
-        res.json({ message: err.message });
+        res.status(401).json({ message: err.message });
       } else {
         console.log(decoded);
         req.body.tokenData = decoded;

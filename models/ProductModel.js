@@ -16,7 +16,7 @@ const ProductsSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "brands",
   },
-  model: String,
+  features: String,
   price: Number,
   shipping: Boolean,
   description: String,
@@ -31,4 +31,4 @@ const ProductsSchema = mongoose.Schema({
   images: [imageSchema],
 });
 
-module.exports = mongoose.model("Products", ProductsSchema);
+module.exports = mongoose.model("products", ProductsSchema);

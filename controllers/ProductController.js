@@ -1,6 +1,7 @@
 /** @format */
 
 const ProductModel = require("../models/ProductModel");
+const BrandModel = require("../models/BrandModel");
 
 module.exports = {
   // -- Get ------------------------------------------------
@@ -16,9 +17,9 @@ module.exports = {
   },
   getById: async function (req, res, next) {
     try {
-      const product = await ProductModel.findById(req.params.id).populate(
-        "category"
-      );
+      const product = await ProductModel.findById(req.params.id)
+        .populate("category")
+        .populate("brand");
       res.status(200).json(product);
     } catch (e) {
       res.status(500).json(e);
@@ -27,7 +28,9 @@ module.exports = {
   },
   getByCategory: async function (req, res, next) {
     try {
-      const products = await ProductModel.find({ category: req.params.id });
+      const products = await ProductModel.find({
+        category: req.params.id,
+      }).populate("brand");
       res.status(200).json(products);
     } catch (e) {
       res.status(500).json(e);
@@ -65,23 +68,29 @@ module.exports = {
   // -- Create ------------------------------------------------
 
   create: async function (req, res, next) {
+    const response = await BrandModel.find({ name: req.body.brand });
+    console.log(response);
+    const brand = response
+      ? response
+      : new BrandModel({
+          name: req.body.name,
+          logo: req.body.logo,
+          image: req.body.image,
+        });
     try {
       const product = new ProductModel({
-        make: req.body.make,
-        model: req.body.model,
+        brand: brand[0]._id,
+        features: req.body.features,
         user: req.body.user,
         price: req.body.price,
         shipping: req.body.shipping,
         stock: req.body.stock,
         category: req.body.category,
         warranty: req.body.warranty,
-        rating: req.body.rating,
         description: req.body.description,
+        images: req.body.images,
       });
 
-      req.body.images.map((image) => {
-        product.images.push(image);
-      });
       const document = await product.save();
       res.status(200).json(document);
     } catch (e) {

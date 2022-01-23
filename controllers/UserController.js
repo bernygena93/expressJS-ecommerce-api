@@ -23,14 +23,28 @@ module.exports = {
   },
   signIn: async function (req, res, next) {
     try {
-      const user = await UserModel.findOne({ email: req.body.email });
+      const user = await UserModel.findOne({ email: req.body.email })
+        .populate({
+          path: "shoppingCart",
+          populate: {
+            path: "product",
+            model: "products",
+          },
+        })
+        .populate({
+          path: "favorites",
+          populate: {
+            path: "product",
+            model: "products",
+          },
+        });
       if (!user) {
         res.json({ error: true, message: "Email incorrecto" });
         return;
       }
       if (bcrypt.compareSync(req.body.password, user.password)) {
         const token = jwt.sign({ userId: user._id }, req.app.get("secretKey"), {
-          expiresIn: 7600,
+          expiresIn: "1h",
         });
         res.status(200).json({
           status: "Success",
@@ -60,41 +74,11 @@ module.exports = {
       next(e);
     }
   },
-  addToCart: async function (req, res, next) {
+  update: async function (req, res, next) {
     try {
-      const user = await UserModel.updateOne(
-        { _id: req.params.id },
-        req.body.shoppingCart.map((product) => {
-          shoppingCart.push(product);
-        })
-      );
-      res.status(200).json(req.body.shoppingCart);
-    } catch (e) {
-      res.status(500).json(e);
-    }
-  },
-  addToShopHistory: async function (req, res, next) {
-    try {
-      const user = await UserModel.updateOne(
-        { _id: req.params.id },
-        req.body.shoppingHistory.map((product) => {
-          shoppingHistory.push(product);
-        })
-      );
-      res.status(200).json(req.body.shoppingHistory);
-    } catch (e) {
-      res.status(500).json(e);
-    }
-  },
-  addToFavourites: async function (req, res, next) {
-    try {
-      const user = await UserModel.updateOne(
-        { _id: req.params.id },
-        req.body.favorites.map((product) => {
-          favorites.push(product);
-        })
-      );
-      res.status(200).json(req.body.favorites);
+      console.log(req.body);
+      const user = await UserModel.updateOne({ _id: req.params.id }, req.body);
+      res.status(200).json(req.body);
     } catch (e) {
       res.status(500).json(e);
     }
